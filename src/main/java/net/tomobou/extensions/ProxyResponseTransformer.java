@@ -22,9 +22,7 @@ public class ProxyResponseTransformer extends ResponseTransformer {
                     ? Gzip.unGzipToString(response.getBody())
                     : response.getBodyAsString());
 
-            parameters.keySet().forEach(key -> {
-                JsonNodeTransformUtil.nodeTransform(bodyJson, Arrays.asList(key.split("\\.").clone()), parameters.getString(key));
-            });
+            parameters.keySet().forEach(key -> JsonNodeTransformUtil.nodeTransform(bodyJson, Arrays.asList(key.split("\\.").clone()), parameters.getString(key)));
 
             return Response.Builder.like(response)
                     .headers(response.getHeaders().plus(new HttpHeader("X-Response-Transformed", "true")))

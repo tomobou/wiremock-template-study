@@ -11,17 +11,17 @@ import com.github.tomakehurst.wiremock.http.Request;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Objects;
 
-public class ParameterModifyingFilter extends StubRequestFilter {
+public class RequestBodyModifierFilter extends StubRequestFilter {
     private static final String PROPERTIES_FILE_PATH = "properties/requestMapping.json";
     private JsonNode requestMapping;
 
-    public ParameterModifyingFilter() {
+    public RequestBodyModifierFilter() {
         try {
-            requestMapping = Json.node(Strings.stringFromBytes(getClass().getResourceAsStream("properties/requestMapping.json").readAllBytes()));
+            requestMapping = Json.node(Strings.stringFromBytes(Objects.requireNonNull(getClass().getResourceAsStream(PROPERTIES_FILE_PATH)).readAllBytes()));
         } catch (IOException e) {
             e.printStackTrace();
-//            requestMapping = Json.node("{}");
         }
     }
 
@@ -48,6 +48,6 @@ public class ParameterModifyingFilter extends StubRequestFilter {
 
     @Override
     public String getName() {
-        return "url-and-header-modifier";
+        return "request-body-modifier";
     }
 }

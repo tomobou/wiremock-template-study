@@ -16,13 +16,13 @@ public class JsonNodeTransformUtil {
             }
         } else {
             if (path.size() == 1) {
-                if ("!DELETE!".equals(operation)) {
+                if (operation.startsWith("!DELETE!")) {
                     ((ObjectNode) current).remove(path.get(0));
-                } else if ("!INTEGER!".equals(operation)) {
+                } else if (operation.startsWith("!INTEGER!")) {
                     ((ObjectNode) current).put(path.get(0), Integer.parseInt(operation.replace("!INTEGER!", "")));
-                } else if ("!DOUBLE!".equals(operation)) {
+                } else if (operation.startsWith("!DOUBLE!")) {
                     ((ObjectNode) current).put(path.get(0), Double.parseDouble(operation.replace("!DOUBLE!", "")));
-                } else if ("!ARRAY!".equals(operation)) {
+                } else if (operation.startsWith("!ARRAY!")) {
                     var array = ((ObjectNode) current).putArray(path.get(0));
                     var addElementCount = Integer.parseInt(operation.replace("!ARRAY!", ""));
                     for (int i = 0; i < addElementCount; i++) {
